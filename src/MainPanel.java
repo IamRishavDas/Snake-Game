@@ -1,3 +1,5 @@
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -136,7 +138,7 @@ public class MainPanel extends JPanel implements ActionListener {
         g.setFont(new Font("Algerian",Font.BOLD, 80));
         FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("Game Over", (SCREEN_WIDTH - metrics.stringWidth("Game Over"))/2, SCREEN_HEIGHT/2);
-        g.setFont(new Font("Algerian",Font.PLAIN, 25));
+        g.setFont(new Font("Algerian",Font.PLAIN, 35));
         metrics = getFontMetrics(g.getFont());
         g.drawString("Score: " + score, (SCREEN_WIDTH - metrics.stringWidth("Score: "))/2, (SCREEN_HEIGHT/2) - 100);
     }
