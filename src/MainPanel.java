@@ -1,4 +1,7 @@
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -10,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Random;
 
 public class MainPanel extends JPanel implements ActionListener {
@@ -18,7 +22,7 @@ public class MainPanel extends JPanel implements ActionListener {
     static final int SCREEN_HEIGHT = 600;
     static final int UNIT_SIZE = 25;
     static final int GAME_UNITS = SCREEN_HEIGHT / UNIT_SIZE;
-    static final int DELAY = 75;
+    static final int DELAY = 55;
 
     final int[] x = new int[GAME_UNITS];
     final int[] y = new int[GAME_UNITS];
@@ -59,8 +63,8 @@ public class MainPanel extends JPanel implements ActionListener {
         if (running) {
             // grid
             // for (int i = 0; i < SCREEN_HEIGHT / UNIT_SIZE; i++) {
-            //     g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
-            //     g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
+            // g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, SCREEN_HEIGHT);
+            // g.drawLine(0, i * UNIT_SIZE, SCREEN_WIDTH, i * UNIT_SIZE);
             // }
 
             // target
@@ -77,8 +81,34 @@ public class MainPanel extends JPanel implements ActionListener {
                     g.fillRect(x[i], y[i], UNIT_SIZE, UNIT_SIZE);
                 }
             }
-        }else{
+        } else {
             gameOver(g);
+            gameOverSound();
+        }
+    }
+
+    public void snakeBiteSound() {
+        try {
+            String sound = "snake-bite-sound.wav";
+            File f = new File("./" + sound);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void gameOverSound() {
+        try {
+            String sound = "game-over-sound.wav";
+            File f = new File("./" + sound);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -103,6 +133,7 @@ public class MainPanel extends JPanel implements ActionListener {
     public void score() {
         if ((x[0] == targetX) && (y[0] == targetY)) {
             bodyParts++;
+            snakeBiteSound();
             score++;
             newTarget();
         }
@@ -134,12 +165,12 @@ public class MainPanel extends JPanel implements ActionListener {
 
     public void gameOver(Graphics g) {
         g.setColor(Color.RED);
-        g.setFont(new Font("Algerian",Font.BOLD, 80));
+        g.setFont(new Font("Algerian", Font.BOLD, 80));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (SCREEN_WIDTH - metrics.stringWidth("Game Over"))/2, SCREEN_HEIGHT/2);
-        g.setFont(new Font("Algerian",Font.PLAIN, 35));
+        g.drawString("Game Over", (SCREEN_WIDTH - metrics.stringWidth("Game Over")) / 2, SCREEN_HEIGHT / 2);
+        g.setFont(new Font("Algerian", Font.PLAIN, 35));
         metrics = getFontMetrics(g.getFont());
-        g.drawString("Score: " + score, (SCREEN_WIDTH - metrics.stringWidth("Score: "))/2, (SCREEN_HEIGHT/2) - 100);
+        g.drawString("Score: " + score, (SCREEN_WIDTH - metrics.stringWidth("Score: ")) / 2, (SCREEN_HEIGHT / 2) - 100);
     }
 
     public void actionPerformed(ActionEvent e) {
