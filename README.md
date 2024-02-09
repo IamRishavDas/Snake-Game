@@ -2,8 +2,7 @@
 Snake Game Using Java Swing
 ## Video Clip
 
+C:\Users\Risha\Desktop\SnakeGame\Snake-Game\Game Clip r.mp4
 
-
-https://github.com/IamRishavDas/Snake-Game/assets/140265067/bad2bb7d-7b68-4c30-a395-e369d30b2999
 
 
